@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Saints du mois de {{ mois }}</h2>
+<hr>
+<div class="container">
+	{% for s in saints %}
+		<div class="item" onclick="openModal()">
+			<!-- Affichage de l'image si elle existe en BDD -->
+			{% if s['image'] is not none %} <img src="{{ url_for('static', filename=s['image']) }}">{% endif %}
+
+			<div class="jour">{{ s['jour'] }}</div>
+			
+			<div class="overlay">
+				<p>{{ s['jour'] }} {{ mois }}</p>
+				<p>{{ s['nom'] }}</p>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+<div id="modal" class="modal-backdrop">
+        <div class="modal">
+            <h3>Modale simple</h3>
+            <p>Hello depuis une modale 🎉</p>
+            <button onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+<script>
+        const modal = document.getElementById('modal');
+
+        function openModal() {
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+    </script>
+
+{% endblock %}

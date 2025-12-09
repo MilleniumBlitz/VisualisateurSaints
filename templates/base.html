@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Saints</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+      }
+      /* reset minime */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial;
+        line-height: 1.3;
+      }
+
+      /* barre du haut */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        padding: 0 16px;
+        background: linear-gradient(90deg, #0b74de 0%, #0366d6 100%);
+        color: white;
+        box-shadow: 0 2px 8px rgba(2, 6, 23, 0.15);
+      }
+
+      /* zones gauche / droite : contenu secondaire */
+      .topbar .side {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 120px;
+        /* pour laisser de la place au centre */
+      }
+
+      .logo {
+        font-weight: 700;
+        letter-spacing: 0.4px;
+      }
+
+      /* conteneur centré pour le select */
+      .center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* style du select */
+      select {
+        appearance: none;
+        /* retire l'apparence native pour pouvoir styliser */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding: 8px 36px 8px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+        font-size: 14px;
+        outline: none;
+        min-width: 220px;
+      }
+
+      /* petite flèche personnalisée (pseudo-element en parent) */
+      .select-wrap {
+        position: relative;
+      }
+
+      .select-wrap::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        transform: translateY(-40%) rotate(45deg);
+        border-right: 2px solid rgba(255, 255, 255, 0.9);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+        pointer-events: none;
+      }
+
+      /* focus */
+      select:focus {
+        box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.18);
+        border-color: rgba(255, 255, 255, 0.45);
+      }
+
+      /* responsive : sur petits écrans, le select passe en inline-block normal (non absolu) */
+      @media (max-width: 520px) {
+        .center {
+          position: static;
+          transform: none;
+          margin: auto;
+        }
+
+        .topbar {
+          height: auto;
+          padding: 10px 12px;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .topbar .side {
+          min-width: 0;
+          justify-content: center;
+          width: 100%;
+        }
+
+        select {
+          min-width: 160px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+  <div class="side left">
+    <div class="logo">MonSite</div>
+  </div>
+
+  <div class="center">
+    {% block selecteur %}{% endblock %}
+  </div>
+
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+    
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Saints du {{ jour }} {{ mois }}</h2>
+
+<table border="1" cellpadding="5">
+<tr><th>Nom</th><th>Titre</th><th></th></tr>
+
+{% for s in saints %}
+<tr>
+    <td>{{ s['nom'] }}</td>
+    <td>{{ s['titre'] }}</td>
+    <td><a href="{{ url_for('edit', id=s['id']) }}">Modifier</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

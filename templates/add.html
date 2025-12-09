@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Ajouter un saint</h1>
+    <form method="post">
+        <label>Nom: <input type="text" name="nom" required></label><br>
+        <label>Titre: <input type="text" name="titre"></label><br>
+        <label>Mois: <input type="text" name="mois" required></label><br>
+        <label>Jour: <input type="text" name="jour" required></label><br>
+        <label>Date de naissance: <input type="text" name="date_naissance"></label><br>
+        <label>Description: <textarea name="description"></textarea></label><br>
+        <label>Source: <input type="text" name="source"></label><br>
+        <button type="submit">Ajouter</button>
+    </form>
+    <a href="{{ url_for('mois') }}">Retour</a>
+
+{% endblock %}
