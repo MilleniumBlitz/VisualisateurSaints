@@ -2,30 +2,23 @@
 
 <!-- SELECTEUR DE MOIS -->
 {% block selecteur %}
-<form method="get">
-      <label for="mois">Selection du mois :</label>
-      <select name="mois" onchange="this.form.submit()">
-        {% for m, name in [
-        ('01','Janvier'),('02','Février'),('03','Mars'),
-        ('04','Avril'),('05','Mai'),('06','Juin'),
-        ('07','Juillet'),('08','Août'),('09','Septembre'),
-        ('10','Octobre'),('11','Novembre'),('12','Décembre')
-        ] %}
-        <option value="{{ m }}" {{ 'selected' if mois==m else '' }}>
-          {{ name }}
-        </option>
-        {% endfor %}
-      </select>
-    </form>
+<select id="select-mois" name="mois">
+      {% for m, name in [
+      ('01','Janvier'),('02','Février'),('03','Mars'),
+      ('04','Avril'),('05','Mai'),('06','Juin'),
+      ('07','Juillet'),('08','Août'),('09','Septembre'),
+      ('10','Octobre'),('11','Novembre'),('12','Décembre')
+      ] %}
+      <option value="{{ m }}" {{ 'selected' if mois==m else '' }}>
+        {{ name }}
+      </option>
+      {% endfor %}
+    </select>
 {% endblock %}
 
 
 {% block content %}
 <style>
-
-  main {
-    padding: 24px
-  }
 
 .saints-container {
   display: grid;
@@ -86,7 +79,8 @@
 
 </style>
 <!-- AFFICHAGE DES SAINTS DU MOIS -->
-<main>
+<main id="resultat">
+  <a href="{{ url_for('edit') }}">Ajouter</a>
   <div class="saints-container">
 {% for saint in saints %}
     <div class="saint-card">
@@ -107,7 +101,16 @@
   
 </main>
 
+<script>
+  const select = document.getElementById("select-mois");
+  const resultat = document.getElementById("resultat");
 
+  select.addEventListener("change", async () => {
+      const mois = select.value;
 
+      const html = await (await fetch(`/mois/${mois}`)).text();
+      resultat.innerHTML = html;
+  });
+</script>
 
 {% endblock %}

@@ -26,9 +26,27 @@
 <label>Source :</label><br>
 <textarea name="source" rows="10" cols="80">{{ saint['source'] }}</textarea><br><br>
 
-<input type="file" name="image" accept="image/*">
+<p id="filename"></p>
+<input type="file" id="image" name="image" accept="image/*">
+<img id="preview" src="" alt="" style="max-width: 200px; display:none; margin-top:10px;">
 
 <button type="submit">Enregistrer</button>
 </form>
+
+<script>
+document.getElementById('image').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        // Afficher le nom
+        document.getElementById('filename').textContent = "Fichier choisi : " + file.name;
+
+        // Afficher l’aperçu
+        const preview = document.getElementById('preview');
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    }
+});
+</script>
 
 {% endblock %}

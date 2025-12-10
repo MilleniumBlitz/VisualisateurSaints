@@ -8,6 +8,11 @@
         font-family: Arial, sans-serif;
         background: #f4f4f4;
       }
+
+      main {
+        padding: 24px
+      }
+
       /* reset minime */
       * {
         box-sizing: border-box;
@@ -129,18 +134,16 @@
   </head>
   <body>
     <header class="topbar">
-  <div class="side left">
-    <div class="logo">MonSite</div>
-  </div>
-
-  <div class="center">
-    {% block selecteur %}{% endblock %}
-  </div>
-
-</header>
-<main>
-{% block content %}{% endblock %}
-</main>
+      <div class="side left">
+        <div class="logo"><a href="{{ url_for('mois') }}">Saint Du Jour</a></div>
+      </div>
+      <div class="center">
+        {% block selecteur %}{% endblock %}
+      </div>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
     
   </body>
 </html>
