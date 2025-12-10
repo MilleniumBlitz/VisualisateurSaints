@@ -1,0 +1,15 @@
+{% for saint in saints %}
+<div class="saint-card">
+    {% if saint['image'] %}
+    <div class="saint-image">
+        <img src="/static/{{ saint['image'] }}" width="200">
+    </div>
+
+    {% endif %}
+    <div class="saint-content">
+        <h2 class="saint-name">{{ saint['nom'] }}<a href="{{ url_for('edit', id=saint['id']) }}">Modifier</a></h2>
+        <h3 class="saint-title">{{ saint['titre'] }}</h3>
+        <p class="saint-description">{{ saint['description'] }}</p>
+    </div>
+</div>
+{% endfor %}

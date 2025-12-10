@@ -1,40 +1,104 @@
 {% extends "base.html" %}
-{% block content %}
-<h2>Saints du mois de {{ mois }}</h2>
-<hr>
-<div class="container">
-	{% for s in saints %}
-		<div class="item" onclick="openModal()">
-			<!-- Affichage de l'image si elle existe en BDD -->
-			{% if s['image'] is not none %} <img src="{{ url_for('static', filename=s['image']) }}">{% endif %}
 
-			<div class="jour">{{ s['jour'] }}</div>
-			
-			<div class="overlay">
-				<p>{{ s['jour'] }} {{ mois }}</p>
-				<p>{{ s['nom'] }}</p>
-			</div>
-		</div>
-	{% endfor %}
-</div>
-<div id="modal" class="modal-backdrop">
-        <div class="modal">
-            <h3>Modale simple</h3>
-            <p>Hello depuis une modale 🎉</p>
-            <button onclick="closeModal()">Fermer</button>
-        </div>
-    </div>
+<!-- SELECTEUR DE MOIS -->
+{% block selecteur %}
+<select id="select-mois" name="mois" onchange="myScript()">
+    {% for m, name in [
+    ('01','Janvier'),('02','Février'),('03','Mars'),
+    ('04','Avril'),('05','Mai'),('06','Juin'),
+    ('07','Juillet'),('08','Août'),('09','Septembre'),
+    ('10','Octobre'),('11','Novembre'),('12','Décembre')
+    ] %}
+    <option value="{{ m }}" {{ 'selected' if mois==m else '' }}>
+        {{ name }}
+    </option>
+    {% endfor %}
+</select>
+{% endblock %}
+
+
+{% block content %}
+<style>
+    #saints-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .saint-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .saint-image {
+        width: 100%;
+        height: 180px;
+        background: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .saint-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    .saint-content {
+        padding: 15px;
+    }
+
+    .saint-name {
+        margin: 0;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .saint-title {
+        margin: 5px 0 10px;
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .saint-description {
+        margin: 0;
+        line-height: 1.4;
+        white-space: pre-wrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        /* nombre de lignes */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+
+Saint du mois
+<a href="{{ url_for('edit') }}">Ajouter</a>
+
+<!-- AFFICHAGE DES SAINTS DU MOIS -->
+<div id="saints-container">
 
 <script>
-        const modal = document.getElementById('modal');
+    const select = document.getElementById("select-mois");
+    const resultat = document.getElementById("saints-container");
 
-        function openModal() {
-            modal.style.display = "flex";
-        }
+    function myScript() {
+        const mois = select.value;
+        fetch(`/vue/mois/${mois}`)
+            .then(response => response.text())
+            .then(html => {
+                resultat.innerHTML = html;
+            }
+        );
+        history.pushState(null, "", `/${mois}`);
+    }
 
-        function closeModal() {
-            modal.style.display = "none";
-        }
-    </script>
+</script>
 
 {% endblock %}

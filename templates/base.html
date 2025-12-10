@@ -75,7 +75,6 @@
         border-radius: 8px;
         border: 1px solid rgba(255, 255, 255, 0.25);
         background: rgba(255, 255, 255, 0.12);
-        color: white;
         font-size: 14px;
         outline: none;
         min-width: 220px;
@@ -132,10 +131,10 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="myScript()">
     <header class="topbar">
       <div class="side left">
-        <div class="logo"><a href="{{ url_for('mois') }}">Saint Du Jour</a></div>
+        <div class="logo"><a href="{{ url_for('saints_du_mois') }}">Saint Du Jour</a></div>
       </div>
       <div class="center">
         {% block selecteur %}{% endblock %}

@@ -27,10 +27,15 @@ def query(sql, params=(), one=False):
     conn.close()
     return (result[0] if result else None) if one else result
 
-@app.route("/<mois>/<jour>")
-def saints(mois, jour):
-    saints = query("SELECT * FROM saints WHERE mois=? AND jour=? ORDER BY nom", (mois, jour))
-    return render_template("saints.html", saints=saints, mois=mois, jour=jour)
+@app.route("/vue/mois/<mois>")
+def saints_du_mois_vue(mois):
+    saints = query("""
+        SELECT id, nom, titre, jour, date_naissance, description, source, image
+        FROM saints
+        WHERE mois=?
+        ORDER BY CAST(jour AS INT), nom
+    """, (mois,))
+    return render_template("bloc_mois.html", saints=saints)
 
 @app.route("/")
 @app.route("/<mois>")
@@ -41,7 +46,7 @@ def saints_du_mois(mois = "01"):
         WHERE mois=?
         ORDER BY CAST(jour AS INT), nom
     """, (mois,))
-    return render_template("mois.html", saints=saints)
+    return render_template("saints_mois.html", saints=saints)
 
 
 @app.route('/edit/', methods=["GET", "POST"])
@@ -92,24 +97,6 @@ def edit(id = None):
 
     saint = query("SELECT * FROM saints WHERE id=?", (id,), one=True)
     return render_template("edit.html", saint=saint)
-
-@app.route("/add", methods=["GET", "POST"])
-def add():
-    if request.method == "POST":
-        query("""
-            INSERT INTO saints (nom, titre, mois, jour, date_naissance, description, source)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            request.form["nom"],
-            request.form["titre"],
-            request.form["mois"],
-            request.form["jour"],
-            request.form["date_naissance"],
-            request.form["description"],
-            request.form["source"]
-        ))
-        return redirect(url_for("mois"))
-    return render_template("add.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
