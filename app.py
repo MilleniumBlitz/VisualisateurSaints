@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import sqlite3
 from werkzeug.utils import secure_filename
 import os
@@ -27,26 +27,29 @@ def query(sql, params=(), one=False):
     conn.close()
     return (result[0] if result else None) if one else result
 
-@app.route("/vue/mois/<mois>")
-def saints_du_mois_vue(mois):
+@app.route("/vue/mois/")
+def saints_du_mois_vue():
+    mois = request.args.get('mois', '01')
     saints = query("""
-        SELECT id, nom, titre, jour, date_naissance, description, source, image
+        SELECT id, nom, titre, jour, mois, date_naissance, description, source, image
         FROM saints
         WHERE mois=?
         ORDER BY CAST(jour AS INT), nom
     """, (mois,))
     return render_template("bloc_mois.html", saints=saints)
 
-@app.route("/")
-@app.route("/<mois>")
-def saints_du_mois(mois = "01"):
-    saints = query("""
-        SELECT id, nom, titre, jour, date_naissance, description, source, image
-        FROM saints
-        WHERE mois=?
-        ORDER BY CAST(jour AS INT), nom
-    """, (mois,))
-    return render_template("saints_mois.html", saints=saints)
+@app.route("/saints/")
+def saints_du_mois():
+    mois = request.args.get('mois')
+    if not mois:
+        return redirect(url_for("saints_du_mois", mois="01"))
+    # saints = query("""
+    #     SELECT id, nom, titre, jour, date_naissance, description, source, image
+    #     FROM saints
+    #     WHERE mois=?
+    #     ORDER BY CAST(jour AS INT), nom
+    # """, (mois,))
+    return render_template("saints_mois.html", mois=mois)
 
 
 @app.route('/edit/', methods=["GET", "POST"])
@@ -54,10 +57,20 @@ def saints_du_mois(mois = "01"):
 def edit(id = None):
     if request.method == "POST":
         
-        file = request.files["image"]
+        nom_saint = request.form["nom"]
+        titre_saint = request.form["titre"]
+        date_naissance_saint = request.form["date_naissance"]
+        description_saint = request.form["description"]
+        source_saint = request.form["source"]
+        jour_saint = request.form["jour"]
+        mois_saint = request.form["mois"]
 
+        file = request.files["image"]
+            
+        filename = None
         if file and allowed_file(file.filename):
-            filename = request.form["jour"] + "-" + request.form["mois"] + "-" + secure_filename(file.filename)
+
+            filename = request.form["jour"] + "-" + request.form["mois"] + "-" + secure_filename(nom_saint)
 
             save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(save_path)
@@ -67,17 +80,16 @@ def edit(id = None):
             query("""INSERT INTO saints
                 (nom, titre, date_naissance, description, "source", jour, mois, image)
                 VALUES(?,?,?,?,?,?,?,?);""", (
-                request.form["nom"],
-                request.form["titre"],
-                request.form["date_naissance"],
-                request.form["description"],
-                request.form["source"],
-                request.form["jour"],
-                request.form["mois"],
+                nom_saint,
+                titre_saint,
+                date_naissance_saint,
+                description_saint,
+                source_saint,
+                jour_saint,
+                mois_saint,
                 filename,
             ))
-            request.args.add("mois", request.form["mois"])
-            return redirect(url_for("mois"))
+            return redirect(url_for("saints_du_mois", mois=mois_saint))
 
         else:
 
@@ -85,11 +97,11 @@ def edit(id = None):
                 UPDATE saints SET nom=?, titre=?, date_naissance=?, description=?, source=?, image=?
                 WHERE id=?
             """, (
-                request.form["nom"],
-                request.form["titre"],
-                request.form["date_naissance"],
-                request.form["description"],
-                request.form["source"],
+                nom_saint,
+                titre_saint,
+                date_naissance_saint,
+                description_saint,
+                source_saint,
                 filename,
                 id
             ))
@@ -97,6 +109,15 @@ def edit(id = None):
 
     saint = query("SELECT * FROM saints WHERE id=?", (id,), one=True)
     return render_template("edit.html", saint=saint)
+
+@app.route("/delete/<int:id>", methods=["DELETE"])
+def delete(id):
+    query("""DELETE FROM saints WHERE id=?""", (id,))
+    return "", 200
+
+@app.route("/")
+def accueil():
+    return render_template("accueil.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

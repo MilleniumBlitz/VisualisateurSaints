@@ -1,52 +1,85 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
+
+<style>
+  .grille {
+    display: flex;
+    justify-content: center;
+  }
+  .selecteur-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>
 
 <h2>Modifier : {{ saint['nom'] }}</h2>
 
 <form method="POST" enctype="multipart/form-data">
+  <div class="grille">
+    <div class="selecteur-image">
+      <img
+        id="preview"
+        src="/static/{{ saint['image'] }}"
+      />
+      <p id="filename"></p>
+      <input type="file" id="image" name="image" accept="image/*" />
+    </div>
+    <div>
+      <label>Jour :</label><br />
+      <input type="text" name="jour" value="{{ saint['jour'] }}" /><br /><br />
 
-<label>Jour :</label><br>
-<input type="text" name="jour" value="{{ saint['jour'] }}"><br><br>
+      <label>Mois :</label><br />
+      <input type="text" name="mois" value="{{ saint['mois'] }}" /><br /><br />
 
-<label>Mois :</label><br>
-<input type="text" name="mois" value="{{ saint['mois'] }}"><br><br>
+      <label>Nom :</label><br />
+      <input type="text" name="nom" value="{{ saint['nom'] }}" /><br /><br />
 
-<label>Nom :</label><br>
-<input type="text" name="nom" value="{{ saint['nom'] }}"><br><br>
+      <label>Titre :</label><br />
+      <input
+        type="text"
+        name="titre"
+        value="{{ saint['titre'] }}"
+      /><br /><br />
 
-<label>Titre :</label><br>
-<input type="text" name="titre" value="{{ saint['titre'] }}"><br><br>
+      <label>Date de naissance :</label><br />
+      <input
+        type="text"
+        name="date_naissance"
+        value="{{ saint['date_naissance'] }}"
+      /><br /><br />
+      d
+      <label>Description :</label><br />
+      <textarea name="description" rows="10" cols="80">
+{{ saint['description'] }}</textarea
+      ><br /><br />
 
-<label>Date de naissance :</label><br>
-<input type="text" name="date_naissance" value="{{ saint['date_naissance'] }}"><br><br>
+      <label>Source :</label><br />
+      <textarea name="source" rows="10" cols="80">
+{{ saint['source'] }}</textarea
+      ><br /><br />
 
-<label>Description :</label><br>
-<textarea name="description" rows="10" cols="80">{{ saint['description'] }}</textarea><br><br>
+      
 
-<label>Source :</label><br>
-<textarea name="source" rows="10" cols="80">{{ saint['source'] }}</textarea><br><br>
-
-<p id="filename"></p>
-<input type="file" id="image" name="image" accept="image/*">
-<img id="preview" src="" alt="" style="max-width: 200px; display:none; margin-top:10px;">
-
-<button type="submit">Enregistrer</button>
+      <button type="submit">Enregistrer</button>
+    </div>
+  </div>
 </form>
 
 <script>
-document.getElementById('image').addEventListener('change', function(event) {
+  document.getElementById("image").addEventListener("change", function (event) {
     const file = event.target.files[0];
 
     if (file) {
-        // Afficher le nom
-        document.getElementById('filename').textContent = "Fichier choisi : " + file.name;
+      // Afficher le nom
+      document.getElementById("filename").textContent =
+        "Fichier choisi : " + file.name;
 
-        // Afficher l’aperçu
-        const preview = document.getElementById('preview');
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = "block";
+      // Afficher l’aperçu
+      const preview = document.getElementById("preview");
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
     }
-});
+  });
 </script>
 
 {% endblock %}

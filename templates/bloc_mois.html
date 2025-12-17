@@ -1,13 +1,20 @@
 {% for saint in saints %}
-<div class="saint-card">
+<div id="saint-{{ saint['id'] }}" class="saint-card">
     {% if saint['image'] %}
-    <div class="saint-image">
-        <img src="/static/{{ saint['image'] }}" width="200">
-    </div>
-
+    <img src="/static/{{ saint['image'] }}">
+        <!-- <div class="saint-image">
+            
+        </div> -->
     {% endif %}
     <div class="saint-content">
-        <h2 class="saint-name">{{ saint['nom'] }}<a href="{{ url_for('edit', id=saint['id']) }}">Modifier</a></h2>
+        <div class="saint-date">{{ saint['jour'] }} {{ saint['mois'] }}</div>
+        <h2 class="saint-name">{{ saint['nom'] }}</h2>
+        <!-- <a href="{{ url_for('edit', id=saint['id']) }}">Modifier</a>
+        <button
+            hx-delete="/delete/{{ saint['id'] }}"
+            hx-target="#saint-{{ saint['id'] }}"
+            hx-confirm="Supprimer cet élément ?"
+            hx-swap="delete">❌</button> -->
         <h3 class="saint-title">{{ saint['titre'] }}</h3>
         <p class="saint-description">{{ saint['description'] }}</p>
     </div>

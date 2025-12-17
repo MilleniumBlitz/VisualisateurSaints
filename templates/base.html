@@ -85,23 +85,8 @@
         position: relative;
       }
 
-      .select-wrap::after {
-        content: "";
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        width: 8px;
-        height: 8px;
-        transform: translateY(-40%) rotate(45deg);
-        border-right: 2px solid rgba(255, 255, 255, 0.9);
-        border-bottom: 2px solid rgba(255, 255, 255, 0.9);
-        pointer-events: none;
-      }
-
-      /* focus */
-      select:focus {
-        box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.18);
-        border-color: rgba(255, 255, 255, 0.45);
+      .logo:hover {
+        cursor: pointer;
       }
 
       /* responsive : sur petits écrans, le select passe en inline-block normal (non absolu) */
@@ -131,10 +116,11 @@
       }
     </style>
   </head>
-  <body onload="myScript()">
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <body>
     <header class="topbar">
       <div class="side left">
-        <div class="logo"><a href="{{ url_for('saints_du_mois') }}">Saint Du Jour</a></div>
+        <div class="logo"><p hx-trigger="" hx-get="/" hx-target="body" hx-push-url="true">Saint du jour</p></div>
       </div>
       <div class="center">
         {% block selecteur %}{% endblock %}
