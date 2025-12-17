@@ -1,10 +1,7 @@
 {% for saint in saints %}
 <div id="saint-{{ saint['id'] }}" class="saint-card">
     {% if saint['image'] %}
-    <img src="/static/{{ saint['image'] }}">
-        <!-- <div class="saint-image">
-            
-        </div> -->
+    <div class="img-wrapper"><img class="saint-image" src="/static/{{ saint['image'] }}"></div>
     {% endif %}
     <div class="saint-content">
         <div class="saint-date">{{ saint['jour'] }} {{ saint['mois'] }}</div>
