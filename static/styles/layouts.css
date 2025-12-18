@@ -1,0 +1,14 @@
+#container {
+  --card-size: 18rem;
+}
+
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+
+    article {
+      max-width: var(--card-size);
+    }
+  }

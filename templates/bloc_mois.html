@@ -1,9 +1,12 @@
 {% for saint in saints %}
 <article>
-    <img src="/static/{{ saint['image'] }}" />
+    <div class="image-saint"><img src="/static/images/{{ saint['image'] }}" /></div>
     <main>
         <p>{{ saint['nom'] }}</p>
         <em>{{ saint['titre'] }}</em>
+        <button hx-trigger="click" hx-get="/edit/{{ saint['id'] }}" hx-target="body" hx-push-url="true">
+            Voir la fiche complète
+        </button>
     </main>
 </article>
 {% endfor %}

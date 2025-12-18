@@ -1,28 +1,26 @@
 {% extends "base.html" %} {% block content %}
 
 <style>
-.saint-edit {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  gap: 2rem;
-}
-
+  .saint-edit {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 2rem;
+  }
 </style>
 
 <h2>Modifier : {{ saint['nom'] }}</h2>
 
 <form method="POST" enctype="multipart/form-data">
-<div class="saint-edit">
-  <div class="image-panel">
-    <img id="preview" src="/static/{{ saint['image'] }}" alt="Photo du saint" />
-    <label class="upload-btn">
-      <p id="filename"></p>
-      <input type="file" id="image" name="image" accept="image/*" />
-    </label>
-  </div>
+  <div class="saint-edit">
+    <div class="image-panel">
+      <img id="preview" src="/static/images/{{ saint['image'] }}" alt="Photo du saint" />
+      <label class="upload-btn">
+        <input type="file" id="image" name="image" accept="image/*" value="{{ saint['image'] }}" />
+      </label>
+    </div>
 
-  <div class="form-panel">
-    <label>Jour :</label><br />
+    <div class="form-panel">
+      <label>Jour :</label><br />
       <input type="text" name="jour" value="{{ saint['jour'] }}" /><br /><br />
 
       <label>Mois :</label><br />
@@ -32,33 +30,23 @@
       <input type="text" name="nom" value="{{ saint['nom'] }}" /><br /><br />
 
       <label>Titre :</label><br />
-      <input
-        type="text"
-        name="titre"
-        value="{{ saint['titre'] }}"
-      /><br /><br />
+      <input type="text" name="titre" value="{{ saint['titre'] }}" /><br /><br />
 
       <label>Date de naissance :</label><br />
-      <input
-        type="text"
-        name="date_naissance"
-        value="{{ saint['date_naissance'] }}"
-      /><br /><br />
+      <input type="text" name="date_naissance" value="{{ saint['date_naissance'] }}" /><br /><br />
       d
       <label>Description :</label><br />
       <textarea name="description" rows="10" cols="80">
-{{ saint['description'] }}</textarea
-      ><br /><br />
+{{ saint['description'] }}</textarea><br /><br />
 
       <label>Source :</label><br />
       <textarea name="source" rows="10" cols="80">
-{{ saint['source'] }}</textarea
-      ><br /><br />
-      
+{{ saint['source'] }}</textarea><br /><br />
+
       <button type="submit">Enregistrer</button>
     </div>
   </div>
-</div>
+  </div>
 
 </form>
 
@@ -67,9 +55,6 @@
     const file = event.target.files[0];
 
     if (file) {
-      // Afficher le nom
-      document.getElementById("filename").textContent =
-        "Fichier choisi : " + file.name;
 
       // Afficher l’aperçu
       const preview = document.getElementById("preview");
