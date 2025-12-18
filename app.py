@@ -14,6 +14,20 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # Extensions autorisées
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
+@app.template_filter("date_fr")
+def date_fr(jour, mois):
+    jour = int(jour)
+    mois = int(mois)
+
+    mois_fr = [
+        "", "janvier", "février", "mars", "avril", "mai", "juin",
+        "juillet", "août", "septembre", "octobre", "novembre", "décembre"
+    ]
+
+    if jour == 1:
+        return f"1er {mois_fr[mois]}"
+    return f"{jour} {mois_fr[mois]}"
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 

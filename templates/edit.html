@@ -1,31 +1,28 @@
 {% extends "base.html" %} {% block content %}
 
 <style>
-  .grille {
-    display: flex;
-    justify-content: center;
-  }
-  .selecteur-image {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+.saint-edit {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 2rem;
+}
+
 </style>
 
 <h2>Modifier : {{ saint['nom'] }}</h2>
 
 <form method="POST" enctype="multipart/form-data">
-  <div class="grille">
-    <div class="selecteur-image">
-      <img
-        id="preview"
-        src="/static/{{ saint['image'] }}"
-      />
+<div class="saint-edit">
+  <div class="image-panel">
+    <img id="preview" src="/static/{{ saint['image'] }}" alt="Photo du saint" />
+    <label class="upload-btn">
       <p id="filename"></p>
       <input type="file" id="image" name="image" accept="image/*" />
-    </div>
-    <div>
-      <label>Jour :</label><br />
+    </label>
+  </div>
+
+  <div class="form-panel">
+    <label>Jour :</label><br />
       <input type="text" name="jour" value="{{ saint['jour'] }}" /><br /><br />
 
       <label>Mois :</label><br />
@@ -57,12 +54,12 @@
       <textarea name="source" rows="10" cols="80">
 {{ saint['source'] }}</textarea
       ><br /><br />
-
       
-
       <button type="submit">Enregistrer</button>
     </div>
   </div>
+</div>
+
 </form>
 
 <script>

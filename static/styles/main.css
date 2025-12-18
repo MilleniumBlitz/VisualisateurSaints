@@ -1,0 +1,81 @@
+/* HEADER */
+body {
+  & > header {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    padding: 1rem;
+    background-color: black;
+    color: white;
+
+    a {
+      font-size: 2rem;
+      line-height: 2rem;
+    }
+    form {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      label {
+        padding: 0.5rem 1rem;
+        /* transition: background-color 0.5s; */
+        border-radius: 1rem;
+        cursor: pointer;
+
+        input[type="radio"] {
+          width: 1;
+          height: 1;
+          margin: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          opacity: 0;
+        }
+
+        &:has(input:checked) {
+          background-color: lightgrey;
+          color: black;
+        }
+      }
+    }
+  }
+}
+
+/* CARD */
+article {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: space-around;
+  background-color: antiquewhite;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  height: 100%;
+  width: 100%;
+  img {
+    object-fit: cover;
+    aspect-ratio: 1/1;
+    max-width: 100%;
+    max-height: calc(100% - 3em);
+    border-radius: 10%;
+    border: 3px solid chocolate;
+    margin: auto;
+  }
+  main {
+    text-align: center;
+    p,
+    em {
+      line-height: 1em;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* LAYOUTS */
+#container {
+  width: fit-content;
+  margin: auto;
+  padding: 1rem;
+}

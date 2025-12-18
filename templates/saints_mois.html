@@ -21,7 +21,7 @@
 <style>
     #saints-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         grid-auto-rows: minmax(250px, 400px);
         gap: 1rem;
     }
@@ -34,6 +34,12 @@
         background: #fff;
         display: flex;
         flex-direction: column;
+    }
+
+    .saint-action {
+        padding: 1rem;
+        position: absolute;
+        right: 0;
     }
 
     .saint-content {
@@ -90,7 +96,7 @@
 </style>
 
 <!-- AFFICHAGE DES SAINTS DU MOIS -->
-<div id="saints-container" hx-get="/vue/mois" hx-trigger="load" hx-include="[name='mois']">
+<div id="container" hx-get="/vue/mois" hx-trigger="load" hx-include="[name='mois']">
 </div>
 
 {% endblock %}
