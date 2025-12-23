@@ -108,9 +108,11 @@ def edit(id = None):
         else:
 
             query("""
-                UPDATE saints SET nom=?, titre=?, date_naissance=?, description=?, source=?, image=?
+                UPDATE saints SET jour=?, mois=?, nom=?, titre=?, date_naissance=?, description=?, source=?, image=?
                 WHERE id=?
             """, (
+                jour_saint,
+                mois_saint,
                 nom_saint,
                 titre_saint,
                 date_naissance_saint,
@@ -119,7 +121,7 @@ def edit(id = None):
                 filename,
                 id
             ))
-            return redirect(url_for("mois"))
+            return redirect(url_for("saints_du_mois", mois=mois_saint))
 
     saint = query("SELECT * FROM saints WHERE id=?", (id,), one=True)
     return render_template("edit.html", saint=saint)

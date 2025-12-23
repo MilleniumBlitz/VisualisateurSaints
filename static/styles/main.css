@@ -1,5 +1,11 @@
 /* HEADER */
 body {
+
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  line-height: 1.3;
+  
   &>header {
     display: flex;
     justify-content: stretch;
@@ -42,13 +48,6 @@ body {
       }
     }
   }
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  line-height: 1.3;
 }
 
 /* barre du haut */

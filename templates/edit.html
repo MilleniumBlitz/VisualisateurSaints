@@ -1,10 +1,26 @@
 {% extends "base.html" %} {% block content %}
 
 <style>
+  .form-panel {
+    width: 1000px;
+  }
   .saint-edit {
     display: grid;
     grid-template-columns: 40% 60%;
     gap: 2rem;
+  }
+  label {
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+  }
+  .selecteur-jour-mois {
+    display: flex;
   }
 </style>
 
@@ -20,29 +36,46 @@
     </div>
 
     <div class="form-panel">
-      <label>Jour :</label><br />
-      <input type="text" name="jour" value="{{ saint['jour'] }}" /><br /><br />
+      <div class="form-group">
+        <label>Jour</label>
+        <div class="selecteur-jour-mois">
+          <input type="text" name="jour" value="{{ saint['jour'] }}" />
 
-      <label>Mois :</label><br />
-      <input type="text" name="mois" value="{{ saint['mois'] }}" /><br /><br />
-
-      <label>Nom :</label><br />
-      <input type="text" name="nom" value="{{ saint['nom'] }}" /><br /><br />
-
-      <label>Titre :</label><br />
-      <input type="text" name="titre" value="{{ saint['titre'] }}" /><br /><br />
-
-      <label>Date de naissance :</label><br />
-      <input type="text" name="date_naissance" value="{{ saint['date_naissance'] }}" /><br /><br />
-      d
-      <label>Description :</label><br />
-      <textarea name="description" rows="10" cols="80">
-{{ saint['description'] }}</textarea><br /><br />
-
-      <label>Source :</label><br />
-      <textarea name="source" rows="10" cols="80">
-{{ saint['source'] }}</textarea><br /><br />
-
+        <select id="select-mois" name="mois">
+          {% for m, name in [
+            ('01','Janvier'),('02','Février'),('03','Mars'),
+            ('04','Avril'),('05','Mai'),('06','Juin'),
+            ('07','Juillet'),('08','Août'),('09','Septembre'),
+            ('10','Octobre'),('11','Novembre'),('12','Décembre')
+          ] %}
+          <option value="{{m}}" {{ 'selected' if saint['mois']==m else '' }}>
+              {{ name }}
+          </option>
+          {% endfor %}
+        </select>
+        </div>
+        
+      </div>
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" name="nom" value="{{ saint['nom'] }}" />
+      </div>
+      <div class="form-group">
+        <label>Titre</label>
+        <input type="text" name="titre" value="{{ saint['titre'] }}" />
+      </div>
+      <div class="form-group">
+        <label>Date de naissance</label>
+        <input type="text" name="date_naissance" value="{{ saint['date_naissance'] }}" />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="10" cols="80">{{ saint['description'] }}</textarea>
+      </div>
+      <div class="form-group">
+        <label>Source</label>
+        <textarea name="source" rows="10" cols="80">{{ saint['source'] }}</textarea>
+      </div>
       <button type="submit">Enregistrer</button>
     </div>
   </div>
