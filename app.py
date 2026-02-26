@@ -8,7 +8,7 @@ app = Flask(__name__)
 DB = "saints.db"
 
 # Dossier où les images seront stockées
-UPLOAD_FOLDER = "static"
+UPLOAD_FOLDER = "static/images"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 # Extensions autorisées
@@ -84,7 +84,7 @@ def edit(id = None):
         filename = None
         if file and allowed_file(file.filename):
 
-            filename = request.form["jour"] + "-" + request.form["mois"] + "-" + secure_filename(nom_saint)
+            filename = request.form["jour"] + "-" + request.form["mois"] + "-" + secure_filename(nom_saint) + "." + file.filename.rsplit(".", 1)[1].lower()
 
             save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(save_path)
